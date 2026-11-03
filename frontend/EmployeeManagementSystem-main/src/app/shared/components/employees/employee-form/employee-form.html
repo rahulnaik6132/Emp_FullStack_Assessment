@@ -1,0 +1,327 @@
+<section class="employee-form-page">
+  <!-- Page Header -->
+  <header class="page-header">
+    <div>
+      <h1>
+        {{ isEditMode ? 'Edit Employee' : 'Add New Employee' }}
+      </h1>
+    </div>
+
+    <a routerLink="/employees" class="back-link"> &larr; Back to Employees </a>
+  </header>
+
+  <!-- Loading State -->
+  @if (isLoading) {
+    <div class="loading-box">
+      <div class="spinner"></div>
+      <p>Loading employee information...</p>
+    </div>
+  }
+
+  <!-- Popup Notification -->
+  <div class="popup-container">
+    @if (errorMessage) {
+      <div class="popup-message popup-error" role="alert">
+        <div class="popup-icon">&#9888;</div>
+
+        <div class="popup-content">
+          <h4 class="popup-title">Unable to Save</h4>
+          <p class="popup-text">{{ errorMessage }}</p>
+        </div>
+
+        <button
+          type="button"
+          class="popup-close"
+          (click)="clearErrorMessage()"
+          aria-label="Close popup"
+        >
+          &times;
+        </button>
+      </div>
+    }
+  </div>
+
+  <!-- Main Employee Form -->
+  @if (!isLoading) {
+    <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()" class="form-container" novalidate>
+      <!-- Section 1: Basic Information -->
+      <div class="form-card">
+        <div class="card-heading">
+          <div class="step-badge">1</div>
+
+          <div>
+            <h2>Identification & Contact</h2>
+            <p>Enter the employee's unique code, full name, and email address.</p>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <!-- Employee Code -->
+          <!-- <div class="form-group">
+            <label for="employeeCode">
+              Employee Code <span class="required">*</span>
+            </label>
+
+            <input
+              id="employeeCode"
+              type="text"
+              formControlName="employeeCode"
+              placeholder="e.g. EMP001"
+              autocomplete="off"
+              [class.input-error]="isFieldInvalid('employeeCode')"
+            />
+
+            @if (isFieldInvalid('employeeCode')) {
+              <small class="error-text">
+
+                @if (employeeForm.get('employeeCode')?.hasError('required')) {
+                  Employee Code is required.
+                } @else if (employeeForm.get('employeeCode')?.hasError('minlength')) {
+                  Employee Code must be at least 3 characters.
+                } @else if (employeeForm.get('employeeCode')?.hasError('maxlength')) {
+                  Employee Code cannot exceed 10 characters.
+                } @else if (employeeForm.get('employeeCode')?.hasError('codeSpaces')) {
+                  Employee Code cannot contain spaces.
+                } @else if (employeeForm.get('employeeCode')?.hasError('missingDigit')) {
+                  Employee Code must contain at least one digit.
+                } @else if (employeeForm.get('employeeCode')?.hasError('codeTaken')) {
+                  This Employee Code is already in use.
+                } @else if (employeeForm.get('employeeCode')?.hasError('pattern')) {
+                  Only letters, numbers, hyphens, and underscores are allowed.
+                }
+
+              </small>
+            }
+          </div> -->
+          <div class="form-group">
+            <label for="employeeCode">Employee Code</label>
+
+            <div class="employee-code-input">
+              <span class="employee-code-prefix">EMP</span>
+
+              <input
+                id="employeeCode"
+                type="text"
+                formControlName="employeeCode"
+                placeholder="123"
+                autocomplete="off"
+                maxlength="7"
+                inputmode="numeric"
+                (input)="onEmployeeCodeInput($event)"
+                [class.input-error]="isFieldInvalid('employeeCode')"
+              />
+            </div>
+
+            @if (isFieldInvalid('employeeCode')) {
+              <small class="error-message">
+                @if (employeeForm.get('employeeCode')?.hasError('required')) {
+                  Employee code is required.
+                } @else if (employeeForm.get('employeeCode')?.hasError('minlength')) {
+                  Enter at least 3 digits after EMP.
+                } @else if (employeeForm.get('employeeCode')?.hasError('maxlength')) {
+                  Enter no more than 7 digits after EMP.
+                } @else if (employeeForm.get('employeeCode')?.hasError('codeTaken')) {
+                  This employee code already exists.
+                } @else {
+                  Enter digits only.
+                }
+              </small>
+            }
+          </div>
+
+          <!-- Full Name -->
+          <div class="form-group">
+            <label for="fullName"> Full Name <span class="required">*</span> </label>
+
+            <input
+              id="fullName"
+              type="text"
+              formControlName="fullName"
+              placeholder="e.g. John Doe"
+              autocomplete="name"
+              maxlength="20"
+              [class.input-error]="isFieldInvalid('fullName')"
+            />
+
+            @if (isFieldInvalid('fullName')) {
+              @if (employeeForm.get('fullName')?.hasError('required')) {
+                <small class="error-text"> Full name is required. </small>
+              }
+
+              @if (employeeForm.get('fullName')?.hasError('invalidFullName')) {
+                <small class="error-text">
+                  Full name must be in Title case. Only letters and single spaces between names are
+                  allowed.
+                </small>
+              }
+
+              @if (employeeForm.get('fullName')?.hasError('maxlength')) {
+                <small class="error-text"> Full name must not exceed 20 characters. </small>
+              }
+            }
+          </div>
+
+          <!-- Email Address -->
+          <div class="form-group full-row">
+            <label for="email"> Corporate Email Address <span class="required">*</span> </label>
+
+            <input
+              id="email"
+              type="email"
+              formControlName="email"
+              placeholder="example@gmail.com"
+              autocomplete="off"
+              (input)="onEmailInput($event)"
+              [class.input-error]="isFieldInvalid('email')"
+            />
+
+            @if (isFieldInvalid('email')) {
+              @if (employeeForm.get('email')?.hasError('required')) {
+                <small class="error-text"> Email is required. </small>
+              }
+
+              @if (employeeForm.get('email')?.hasError('emailSpaces')) {
+                <small class="error-text"> Email must not contain spaces. </small>
+              }
+
+              @if (employeeForm.get('email')?.hasError('invalidEmailFormat')) {
+                <small class="error-text"> Enter a valid email address. </small>
+              }
+
+              @if (employeeForm.get('email')?.hasError('emailTaken')) {
+                <small class="error-text"> This email address is already registered. </small>
+              }
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 2: Department & Role -->
+      <div class="form-card">
+        <div class="card-heading">
+          <div class="step-badge">2</div>
+
+          <div>
+            <h2>Employment Details</h2>
+            <p>Specify the department, designation, and starting date.</p>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <!-- Department -->
+          <div class="form-group">
+            <label for="department"> Department <span class="required">*</span> </label>
+
+            <select
+              id="department"
+              formControlName="department"
+              [class.input-error]="isFieldInvalid('department')"
+            >
+              <option value="" disabled>Select Department</option>
+
+              <option *ngFor="let department of departments" [value]="department">
+                {{ department }}
+              </option>
+            </select>
+
+            @if (isFieldInvalid('department')) {
+              <small class="error-text"> Department is required. </small>
+            }
+          </div>
+
+          <!-- Designation -->
+          <div class="form-group">
+            <label for="designation"> Designation / Role <span class="required">*</span> </label>
+
+            <input
+              id="designation"
+              type="text"
+              formControlName="designation"
+              placeholder="Enter designation"
+              maxlength="40"
+              [class.input-error]="isFieldInvalid('designation')"
+            />
+
+            @if (isFieldInvalid('designation')) {
+              @if (employeeForm.get('designation')?.hasError('required')) {
+                <small class="error-text"> Designation is required. </small>
+              }
+
+              @if (employeeForm.get('designation')?.hasError('invalidDesignation')) {
+                <small class="error-text">
+                  Designation must contain only letters and Title Case.
+                </small>
+              }
+
+              @if (employeeForm.get('designation')?.hasError('maxlength')) {
+                <small class="error-text"> Designation must not exceed 20 characters. </small>
+              }
+            }
+          </div>
+
+          <!-- Joining Date -->
+          <div class="form-group">
+            <label for="joiningDate"> Date of Joining <span class="required">*</span> </label>
+
+            <input
+              id="joiningDate"
+              type="date"
+              formControlName="joiningDate"
+              [max]="today"
+              [class.input-error]="isFieldInvalid('joiningDate')"
+            />
+
+            @if (isFieldInvalid('joiningDate')) {
+              @if (employeeForm.get('joiningDate')?.hasError('required')) {
+                <small class="error-text"> Joining date is required. </small>
+              }
+
+              @if (employeeForm.get('joiningDate')?.hasError('futureDate')) {
+                <small class="error-text"> Joining date cannot be in the future. </small>
+              }
+            }
+          </div>
+
+          <!-- Employment Status -->
+          <!-- <div class="form-group">
+            <label for="activeStatus">
+              Employment Status <span class="required">*</span>
+            </label>
+
+            <select
+              id="activeStatus"
+              formControlName="activeStatus"
+              [class.input-error]="isFieldInvalid('activeStatus')"
+            >
+              <option [ngValue]="true">Active</option>
+              <option [ngValue]="false">Inactive</option>
+            </select>
+
+            @if (isFieldInvalid('activeStatus')) {
+              <small class="error-text">
+                Employment Status is required.
+              </small>
+            }
+          </div> -->
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" (click)="cancel()" [disabled]="isSubmitting">
+          Cancel
+        </button>
+
+        <button type="submit" class="btn-submit" [disabled]="isSubmitting">
+          @if (isSubmitting) {
+            <span>Saving employee...</span>
+          } @else if (isEditMode) {
+            <span>Update Employee</span>
+          } @else {
+            <span>Add Employee</span>
+          }
+        </button>
+      </div>
+    </form>
+  }
+</section>

@@ -1,0 +1,170 @@
+/* Global Styles */
+
+:root {
+  --background-color: #F9EBD7;
+  --primary-color: #046A38;
+  --secondary-color: #E34222;
+  --card-background: #FFFFFF;
+  --text-color: #252525;
+  --border-color: #E5DED2;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+img, svg {
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
+}
+
+/* ==========================================================================
+   Popup Message / Toast Notifications
+   ========================================================================== */
+
+.popup-container {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 420px;
+  width: calc(100vw - 48px);
+  pointer-events: none;
+}
+
+.popup-message {
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 18px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  border-left: 5px solid;
+  animation: popupSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+@keyframes popupSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(50px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+.popup-success {
+  border-left-color: #046a38;
+}
+
+.popup-success .popup-icon {
+  background-color: #ecfdf5;
+  color: #046a38;
+}
+
+.popup-error {
+  border-left-color: #dc2626;
+}
+
+.popup-error .popup-icon {
+  background-color: #fef2f2;
+  color: #dc2626;
+}
+
+.popup-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.popup-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.popup-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.popup-text {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: #4b5563;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.popup-close {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  line-height: 1;
+  color: #9ca3af;
+  padding: 2px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: color 0.15s ease;
+}
+
+.popup-close:hover {
+  color: #111827;
+}
+
+.popup-action-btn {
+  margin-top: 8px;
+  background: #dc2626;
+  color: #ffffff;
+  border: none;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.popup-action-btn:hover {
+  background: #b91c1c;
+}

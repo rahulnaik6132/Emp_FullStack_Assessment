@@ -1,0 +1,25 @@
+1. EmployeeService – employee.service.spec.ts
+
+    Test Case	Expected Result
+        Service creation	=> EmployeeService is created successfully.
+        Get all employees	=> GET request returns the employee list.
+        Get employee by ID	=> GET request returns employee details.
+        Create employee	    => POST request sends employee data.
+        Update employee	    => PUT request updates employee data.
+        Delete employee	    => DELETE request removes employee by ID.
+
+2. Navbar – navbar.spec.ts
+
+    Test Case	Expected Result
+        Navbar loads	        => Navbar heading is displayed.
+        Admin Logo displays	    => Admin label are visible.
+        Dashboard navigation	=> Dashboard link navigates to the dashboard.
+        Employee navigation	    => Employees link navigates to the employee page.
+
+3. Sidebar – sidebar.spec.ts
+
+    Test Case	Expected Result
+        Sidebar loads	=> Sidebar displays EMS branding.
+        Dashboard link	=> Dashboard route is opened.
+        Employees link	=> Employees route is opened.
+        Active route	=> Current route is highlighted.

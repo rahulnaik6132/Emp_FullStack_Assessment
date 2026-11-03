@@ -1,0 +1,98 @@
+<!-- Rohan Raj -->
+ <!-- Model.ts -->
+
+<section class="dashboard">
+
+  <!-- Page Title -->
+  <header class="page-title">
+    <div>
+      <h1>Dashboard</h1>
+      <p>Employee availability details</p>
+    </div>
+  </header>
+
+  <!-- Popup Notification Messages -->
+  <div class="popup-container">
+    @if (errorMessage) {
+      <div class="popup-message popup-error" role="alert">
+        <div class="popup-icon">&#9888;</div>
+        <div class="popup-content">
+          <h4 class="popup-title">Error</h4>
+          <p class="popup-text">{{ errorMessage }}</p>
+          <button type="button" class="popup-action-btn" (click)="loadMetrics()">Retry</button>
+        </div>
+        <button type="button" class="popup-close" (click)="clearErrorMessage()" aria-label="Close popup">&times;</button>
+      </div>
+    }
+  </div>
+
+  <!-- Stats Grid -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <p>Total Employees</p>
+      <h2>{{ totalEmployees }}</h2>
+      
+    </div>
+
+    <div class="stat-card">
+      <p>Currently working</p>
+      <h2>{{ activeEmployees }}</h2>
+      
+    </div>
+
+    <!-- <div class="stat-card">
+      <p>Inactive Staff</p>
+      <h2>{{ inactiveEmployees }}</h2>
+      
+    </div> -->
+
+    <div class="stat-card">
+      <p>Departments</p>
+      <h2>{{ departmentCount }}</h2>
+      
+    </div>
+  </div>
+
+  <!-- Welcome / Quick Actions Card -->
+  <div class="welcome-card">
+    <div class="welcome-header">
+      <div>
+        <h2>Employee Management System</h2>
+      </div>
+      <div class="quick-actions">
+       
+        <a routerLink="/employees" class="action-btn secondary-btn">View All Employees</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Employees Section -->
+  @if (recentEmployees.length > 0) {
+    <div class="recent-card">
+      <div class="recent-header">
+        <h3>Recently Added Employees</h3>
+        <!-- <a routerLink="/employees" class="view-all-link">View all employees &rarr;</a> -->
+      </div>
+
+      <div class="recent-grid">
+        @for (emp of recentEmployees; track emp.employeeId || emp.employeeCode) {
+          <div class="emp-card">
+            <div class="emp-top">
+              <span class="emp-code">{{ emp.employeeCode }}</span>
+              <span
+                class="status-dot"
+                [class.active]="emp.activeStatus"
+                [class.inactive]="!emp.activeStatus"
+                [title]="emp.activeStatus ? 'Active' : 'Inactive'"
+              ></span>
+            </div>
+            <div class="emp-name">{{ emp.fullName }}</div>
+            <div class="emp-role">{{ emp.designation }}</div>
+            <div class="emp-dept">{{ emp.department }}</div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+</section>

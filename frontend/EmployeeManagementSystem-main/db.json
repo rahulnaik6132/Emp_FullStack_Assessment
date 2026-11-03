@@ -1,0 +1,37 @@
+{
+  "employees": [
+    {
+      "employeeCode": "EMP002",
+      "fullName": "Jane Smithh",
+      "email": "smith@gil.com",
+      "department": "Marketing & Sales",
+      "designation": "Manager",
+      "joiningDate": "2026-10-12",
+      "activeStatus": true,
+      "employeeId": 2,
+      "id": "2"
+    },
+    {
+      "employeeCode": "EMP101",
+      "fullName": "Ram",
+      "email": "ram@gmail.com",
+      "department": "Human Resources",
+      "designation": "HR",
+      "joiningDate": "2026-10-30",
+      "activeStatus": false,
+      "id": "URMhJpWC-hs"
+    },
+    {
+      "employeeCode": "EMP103",
+      "fullName": "Santhosh Naik",
+      "email": "santhoshanaik02@gmail.com",
+      "department": "Human Resources",
+      "designation": "HR Intern",
+      "joiningDate": "2026-10-29",
+      "activeStatus": true,
+      "employeeId": null,
+      "id": "mUleBDi2xkk"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

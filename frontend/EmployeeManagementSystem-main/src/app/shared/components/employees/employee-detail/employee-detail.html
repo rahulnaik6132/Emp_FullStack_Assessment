@@ -1,0 +1,118 @@
+<!-- Harsha -->
+<!--Pipes  -->
+
+<section class="detail-page">
+  <!-- Popup Notification Messages -->
+  <div class="popup-container">
+    @if (actionErrorMessage) {
+      <div class="popup-message popup-error" role="alert">
+        <div class="popup-icon">&#9888;</div>
+        <div class="popup-content">
+          <h4 class="popup-title">Error</h4>
+          <p class="popup-text">{{ actionErrorMessage }}</p>
+        </div>
+        <button
+          type="button"
+          class="popup-close"
+          (click)="clearActionError()"
+          aria-label="Close popup"
+        >
+          &times;
+        </button>
+      </div>
+    }
+  </div>
+
+  <!-- Header -->
+  <header class="page-header">
+    <div>
+      <h1>Employee Profile</h1>
+      <p>Comprehensive overview of employment information and contact details.</p>
+    </div>
+
+    <a routerLink="/employees" class="back-link"> &larr; Back to Employees </a>
+  </header>
+
+  <!-- Loading State -->
+  @if (isLoading) {
+    <div class="state-card">
+      <div class="spinner"></div>
+      <p>Loading employee record...</p>
+    </div>
+  } @else if (errorMessage) {
+    <!-- Error State -->
+    <div class="state-card error-card">
+      <p>{{ errorMessage }}</p>
+      <a routerLink="/employees" class="btn btn-secondary">Return to Employee List</a>
+    </div>
+  } @else if (employee) {
+    <!-- Profile Card -->
+    <div class="profile-card">
+      <div class="profile-header">
+        <div class="identity-box">
+          <div class="avatar">{{ employee.fullName.slice(0, 2).toUpperCase() }}</div>
+          <div>
+            <h2>{{ employee.fullName }}</h2>
+            <div class="sub-info">
+              <span class="emp-code">{{ employee.employeeCode }}</span>
+              <span class="dot">&bull;</span>
+              <span class="designation">{{ employee.designation }}</span>
+            </div>
+          </div>
+        </div>
+
+        <span
+          class="status-pill"
+          [class.active]="employee.activeStatus"
+          [class.inactive]="!employee.activeStatus"
+        >
+          {{ employee.activeStatus ? 'Active Employee' : 'Inactive / Resigned' }}
+        </span>
+      </div>
+
+      <!-- Detail Info Sections -->
+      <div class="profile-content">
+        <div class="info-section">
+          <h3>Employment Information</h3>
+          <div class="info-grid">
+            <div class="info-item">
+              <span class="label">Department</span>
+              <span class="value">{{ employee.department }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Designation</span>
+              <span class="value">{{ employee.designation }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Date of Joining</span>
+              <span class="value">{{ employee.joiningDate }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-section">
+          <h3>Contact Details</h3>
+          <div class="info-grid">
+            <div class="info-item full-row">
+              <span class="label">Corporate Email Address</span>
+              <span class="value email-link">{{ employee.email }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Footer -->
+      <footer class="profile-footer">
+        <a [routerLink]="['/employees/edit', employee.employeeId]" class="btn btn-edit">
+          Edit Details
+        </a>
+
+        <button type="button" class="btn btn-delete" (click)="deleteCurrentEmployee()">
+          Delete Employee
+        </button>
+
+        <a routerLink="/employees" class="btn btn-secondary"> Back to List </a>
+      </footer>
+    </div>
+  }
+</section>

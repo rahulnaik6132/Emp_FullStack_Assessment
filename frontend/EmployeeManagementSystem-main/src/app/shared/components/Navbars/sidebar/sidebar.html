@@ -1,0 +1,44 @@
+@if (isOpen) {
+  <div class="sidebar-backdrop" (click)="close()"></div>
+}
+
+<aside class="sidebar" [class.open]="isOpen">
+
+  <div class="sidebar-top">
+    <div class="brand">
+      <h2>EMS</h2>
+      <p>Employee Management System</p>
+    </div>
+    <button type="button" class="sidebar-close-btn" (click)="close()" aria-label="Close navigation menu">&times;</button>
+  </div>
+
+  <nav class="navigation">
+
+    <a
+      routerLink="/dashboard"
+      routerLinkActive="active"
+      class="nav-link"
+      (click)="close()"
+    >
+      Dashboard
+    </a>
+
+    <a
+      routerLink="/employees"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      class="nav-link"
+      (click)="close()"
+    >
+      Employees
+    </a>
+
+   
+
+  </nav>
+
+  <div class="sidebar-footer">
+    Employee Management System
+  </div>
+
+</aside>
